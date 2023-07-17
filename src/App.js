@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
-
+import {useEffect, useState} from "react";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LoadCountries></LoadCountries>
     </div>
   );
+}
+function LoadCountries(){
+  const [countries,setCountries] = useState([]);
+  useEffect(()=>{
+    fetch('https://restcountries.com/v3.1/all')
+    .then(res => res.json())
+    .then(data =>console.log(data))
+    // .then(data => setCountries(data))
+  },[])
+return(
+  <div>
+<h1>TRAVEL WHOLE WORLD</h1>
+{
+  countries.map(country =><Country name ={country.name.common} population={country.population} capital={country.capital} region={country.region}></Country>)
+}
+  </div>
+)
+}
+function Country (props){
+  return(
+    <div>
+      <h1>Name:{props.name}</h1>
+      <p>Population:{props.population}</p>
+      <p>Capital:{props.capital}</p>
+      <p>Region:{props.region}</p>
+    </div>
+  )
 }
 
 export default App;
